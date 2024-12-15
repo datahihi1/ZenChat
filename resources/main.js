@@ -1,3 +1,4 @@
+// Nơi cấu hình tự động tải
 document.addEventListener('DOMContentLoaded', function () {
     const chatForm = document.getElementById('chat-form');
 
@@ -33,5 +34,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     setInterval(loadMessages, 1000);
-    setInterval(loadUserStatus, 10000); 
+    setInterval(loadUserStatus, 1000); // autoload messages, user status after 1 sec(Client may take longer due to internet connection)
 });

@@ -3,9 +3,28 @@ include 'models/pdo.php';
 
 $users = $pdo->query("SELECT username, status FROM users")->fetchAll();
 
-foreach ($users as $user) {
-    $status = $user['status'] ? 'Online' : 'Offline';
-    $status_class =  $user['status'] ? 'text-success' : 'text-secondary';
-    echo "<div class='user'><span class='{$status_class}'>" . htmlspecialchars($user['username']) . " - {$status}</span></div>";
-}
 ?>
+<!-- HTML -->
+<h6>Online</h6>
+<?php foreach ($users as $user): ?>
+    <?php if ($user['status'] == 1): ?>
+        <div class="user">
+            <span class="text-success">
+                <?php echo htmlspecialchars($user['username']); ?> - Online
+            </span>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<hr>
+
+<h6>Offline</h6>
+<?php foreach ($users as $user): ?>
+    <?php if ($user['status'] == 0): ?>
+        <div class="user">
+            <span class="text-secondary">
+                <?php echo htmlspecialchars($user['username']); ?> - Offline
+            </span>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>

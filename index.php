@@ -69,12 +69,12 @@ $user_statuses = getUserStatus($pdo);
 
 <body class="container-fluid">
 
-  <?php if (isset($_SESSION["err_message"])) {
+  <?php
+  if (isset($_SESSION["err_message"])) {
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $_SESSION['err_message'] .
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     unset($_SESSION["err_message"]);
   }
-
   if (isset($_SESSION["app_message"])) {
     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">' . $_SESSION['app_message'] .
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
@@ -86,82 +86,42 @@ $user_statuses = getUserStatus($pdo);
     <div>
       <a href="logout.php" class="btn btn-outline-danger">Logout</a>
       <a href="private_chat.php" class="btn btn-primary">Private</a>
-      <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Test Model
-    </button>
+      <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#UserStatusModal">
+        User List
+      </button>
     </div>
   </div>
 
-  <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <!-- Danh sách người dùng và trạng thái -->
-  <div class="accordion mb-4" id="accordion_1">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="true" aria-controls="collapse_1">
-          User Status
-        </button>
-      </h2>
-      <div id="collapse_1" class="accordion-collapse collapse show" data-bs-parent="#accordion_1">
-        <div class="accordion-body" id="user-list">
-          <?php foreach ($user_statuses as $user): ?>
-            <div class="user">
-              <span class="<?php echo $user['status'] ? 'text-success' : 'text-secondary'; ?>">
-                <?php echo htmlspecialchars($user['username']); ?> - <?php echo $user['status'] ? 'Online' : 'Offline'; ?>
-              </span>
-            </div>
-          <?php endforeach; ?>
+  <!-- Modal user status -->
+  <div class="modal fade" id="UserStatusModal" tabindex="-1" aria-labelledby="UserStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="UserStatusModalLabel">User Status</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="user-list">
+          <p>Vui lòng chờ ...</p>
+          <!--  Đây là vị trí load_user_status.php tự động truyền vào và tải -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Khu vực hiển thị tin nhắn chat của người dùng -->
-  <div id="chat-box" class="border rounded p-3 mb-4" style="height: 300px; overflow-y: scroll;">
-    <?php foreach ($messages as $message): ?>
-      <div class="message mb-3">
-        <span class="fw-bold text-primary"><?php echo htmlspecialchars($message['username']); ?>:</span>
-        <?php echo htmlspecialchars($message['message']); ?>
-
-        <?php if ($message['image_path']): ?>
-          <div>
-            <img src="<?php echo htmlspecialchars($message['image_path']); ?>" alt="Hình ảnh" class="chat-image img-fluid mt-2">
-          </div>
-        <?php endif; ?>
-
-        <?php if ($message['user_id'] === $user_id): ?>
-          <a href="recall_messages.php" class="btn btn-link">Thu hồi</a>
-        <?php endif; ?>
-      </div>
-    <?php endforeach; ?>
+  <div id="chat-box" class="border rounded p-3 mb-4" style="height: 64vh; overflow-y: scroll;">
+  <p>Vui lòng chờ ...</p>
+    <!--  Đây là vị trí load_message.php tự động truyền vào và tải -->
   </div>
 
   <!-- Khu vực nhắn tin -->
   <div class="bg-body-tertiary p-4 rounded position-fixed bottom-0 start-0 end-0">
     <form id="chat-form" method="post" enctype="multipart/form-data" class="row g-3">
       <div class="col-md-8">
-        <input type="text" name="message" class="form-control" placeholder="Nhập tin nhắn" required>
+        <input type="text" name="message" class="form-control" placeholder="Nhập tin nhắn">
       </div>
       <div class="col-md-3">
         <input type="file" name="image" class="form-control" accept="image/*">
