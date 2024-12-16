@@ -3,6 +3,14 @@
   include 'config/getbootstrap5.php';
   session_start();
 
+  if(isset($_COOKIE['cookie_key'])){
+    $stmt = $pdo->prepare("SELECT u_s.*,u.* FROM user_sessions AS u_s JOIN users AS u ON u.id=u_s.user_id WHERE cookie_id=?");
+    $stmt->execute([$_COOKIE['cookie_key']]);
+    $session = $stmt->fetch();
+    $_SESSION['user_id'] = $session['user_id'];
+    $_SESSION['username'] = $session['username'];
+  }
+
   function generateCookieKey($length = 16) {
     return substr(bin2hex(random_bytes($length)), 0, $length);
   }
@@ -32,8 +40,9 @@
         $_SESSION["app_message"] = "Đăng nhập thành công";
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         setcookie("cookie_key", $cookie_key, time() + 86400 * 30, "/");// 30 ngày
-        $stmt = $pdo->prepare("INSERT INTO user_sessions(user_id, user_agents, cookie_id) VALUES (?, ?, ?)");
-        $stmt->execute([$user['id'], $user_agent, $cookie_key]);
+        $expired_at = date('Y-m-d H:i:s',strtotime('+30 days'));
+        $stmt = $pdo->prepare("INSERT INTO user_sessions(user_id, user_agents, cookie_id, expired_at) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$user['id'], $user_agent, $cookie_key, $expired_at]);
 
         header('Location: index.php');
       } else {
@@ -48,38 +57,38 @@
   <?php
     if (isset($_SESSION["err_message"])) {
       echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $_SESSION['err_message'] .
-        '<type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
       unset($_SESSION["err_message"]);
     }
 
     if (isset($_SESSION["app_message"])) {
       echo '<div class="alert alert-success alert-dismissible fade show" role="alert">' . $_SESSION['app_message'] .
-        '<type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
       unset($_SESSION["app_message"]);
     }
   ?>
 
   <div class="d-flex align-items-center justify-content-center">
 
-    <div class="col-md-7">
+    <div class="col-md-7 col-sm-12">
       <form method="POST" action="">
         <!-- Email input -->
         <div class="form-outline mb-4">
-          <label class="form-label">Username</label>
-          <input type="text" name="username" class="form-control form-control-lg" required />
+          <label class="form-label" for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-control form-control-lg" required />
           <?php
           if (isset($_SESSION["login_message_user"])) {
-            echo '<span style="color:red">' . $_SESSION['login_message_user'] . '</span>';
+            echo '<span class="text-danger">' . $_SESSION['login_message_user'] . '</span>';
             unset($_SESSION["login_message_user"]);
           }
           ?>
         </div>
         <div class="form-outline mb-4">
-          <label class="form-label">Password</label>
-          <input type="password" name="password" class="form-control form-control-lg" required />
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control form-control-lg" required />
           <?php
           if (isset($_SESSION["login_message_pass"])) {
-            echo '<span style="color:red">' . $_SESSION['login_message_pass'] . '</span>';
+            echo '<span class="text-danger">' . $_SESSION['login_message_pass'] . '</span>';
             unset($_SESSION["login_message_pass"]);
           }
           ?>
@@ -91,7 +100,7 @@
 
         <button type="submit" class="btn btn-primary">Sign in</button>
 
-        <div class="d-flex mb-4">
+        <div class="d-flex mb-4 mt-3">
           <p>No account? <a href="register.php">Register</a> now!</p>
         </div>
 
@@ -99,4 +108,5 @@
     </div>
   </div>
 </div>
+
 

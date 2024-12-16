@@ -3,6 +3,7 @@
 include 'models/pdo.php';
 include 'config/getbootstrap5.php';
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
   header("Location: login.php");
   exit;

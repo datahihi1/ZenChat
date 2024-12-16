@@ -1,6 +1,8 @@
 <?php
 require_once 'env.php';
 
+date_default_timezone_set('Asia/Ho_Chi_Minh'); // UTC +7
+
 $host = BASE_HOST;
 $db   = DATABASE;
 $user = DB_USER;

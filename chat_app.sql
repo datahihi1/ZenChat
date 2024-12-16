@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 15, 2024 at 06:34 AM
+-- Generation Time: Dec 16, 2024 at 02:39 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -32,20 +32,8 @@ CREATE TABLE `messages` (
   `user_id` int DEFAULT NULL,
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `image_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `user_id`, `message`, `created_at`, `image_path`) VALUES
-(22, 1, 'cái này tôi đang test tý', '2024-11-26 13:13:32', NULL),
-(23, 6, 'ok', '2024-11-26 13:13:39', NULL),
-(32, 3, '(❁´◡`❁)', '2024-12-14 18:35:55', NULL),
-(33, 3, '😀', '2024-12-14 18:40:37', NULL),
-(34, 3, NULL, '2024-12-14 18:42:12', 'uploads/public/2024_12_14-18_42_12-admin-3-2604b823cf0c6.png'),
-(36, 1, '', '2024-12-14 19:07:14', 'uploads/public/2024_12_14-19_07_14-datahihi1-1-8824b2790e0ca8.png');
 
 -- --------------------------------------------------------
 
@@ -57,9 +45,9 @@ CREATE TABLE `private_messages` (
   `id` int NOT NULL,
   `room_id` int NOT NULL,
   `sender_id` int NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `image_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -70,7 +58,7 @@ CREATE TABLE `private_messages` (
 
 CREATE TABLE `private_rooms` (
   `id` int NOT NULL,
-  `code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user1_id` int NOT NULL,
   `user2_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -84,25 +72,14 @@ CREATE TABLE `private_rooms` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` text COLLATE utf8mb4_unicode_ci,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(1) DEFAULT '0',
   `last_activity` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `role` tinyint NOT NULL DEFAULT '0',
   `banned_to` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `status`, `last_activity`, `role`, `banned_to`) VALUES
-(1, 'datahihi1', 'datahihi1100@gmail.com', '$2y$10$tIOMEV.YNJAyYgbOboB1S.YjC89w9ccLse1iABfGTOXAmdPS13I6S', 1, '2024-12-15 06:33:34', 0, NULL),
-(3, 'admin', 'admin@admin', '$2y$10$Og5L6wXtEHVbp0LidCqLSuFnYJTA0.QdrzkMsoWTMPB1ofFYbSL7u', 0, '2024-12-14 19:11:05', 0, NULL),
-(4, 'datd5400', 'datd5400@gmail.com', '$2y$10$ZdgR.DtQE/jn8Zl/hs8IrO0gI.Le4mHdGy7JTgNmDpUW3VWvwLL0.', 0, '2024-12-14 08:55:34', 0, NULL),
-(5, 'test', 'anh077688@gmail.com', '$2y$10$PP1tx.pn1YRD2V0BVqflouFWxW/71S95R3YurenTbPizoLCAXgYum', 0, '2024-11-23 16:10:55', 0, NULL),
-(6, '_thahhin_', 'chucthanhdinh2k4@gmail.com', '$2y$10$zxuQbQ4/6INi0yAZP3gBdujT63dQr7CO6oEI3NElfUojpalxQeydy', 0, '2024-12-01 03:15:37', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -113,7 +90,7 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `status`, `last_acti
 CREATE TABLE `user_forgot_pass` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
-  `key_id` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key_id` char(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -126,21 +103,11 @@ CREATE TABLE `user_forgot_pass` (
 CREATE TABLE `user_sessions` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
-  `user_agents` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cookie_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_agents` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cookie_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `expired_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user_sessions`
---
-
-INSERT INTO `user_sessions` (`id`, `user_id`, `user_agents`, `cookie_id`, `created_at`, `expired_at`) VALUES
-(46, 1, 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36', 'ef4ecf2f88fcc2d6', '2024-12-14 15:55:20', NULL),
-(49, 1, 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36', 'd191842faf03de6b', '2024-12-14 19:07:46', NULL),
-(50, 1, 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36', 'f8e8c3db64c3a523', '2024-12-14 19:58:55', NULL),
-(52, 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '3d9b3f0f622f6c1c', '2024-12-15 06:26:59', NULL);
 
 --
 -- Indexes for dumped tables
@@ -199,7 +166,7 @@ ALTER TABLE `user_sessions`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `private_messages`
@@ -217,19 +184,19 @@ ALTER TABLE `private_rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_forgot_pass`
 --
 ALTER TABLE `user_forgot_pass`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

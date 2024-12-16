@@ -5,6 +5,7 @@ const DATABASE = 'chat_app';
 const DB_USER = 'root';
 const DB_PASS = '';
 
-const PATH_BASE = "c:\\laragon\\www\\ZenChat\\";
+$doc_root = $_SERVER['DOCUMENT_ROOT'];
+define('PATH_BASE', $doc_root . "/ZenChat/");
 
 define('UPLOAD_PUBLIC',PATH_BASE . "uploads\public\ " );
